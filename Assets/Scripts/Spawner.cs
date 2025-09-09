@@ -21,21 +21,22 @@ public class Spawner : MonoBehaviour
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        _coroutine = StartCoroutine(nameof(SpawnRepeating));
+        _coroutine = StartCoroutine(SpawningEnemies());
     }
 
     private void CreateEnemy()
     {
         Enemy enemy = Instantiate(_enemyPrefab);
-        enemy.transform.position = GetRandomPositionFromSpawnPoints();
-        enemy.transform.eulerAngles = CreateRandomUpVector();
+        Vector3 position = GetRandomPositionFromSpawnPoints();
+        Vector3 rotation = CreateRandomUpVector();
+        enemy.Init(position, rotation);
     }
 
     private Vector3 GetRandomPositionFromSpawnPoints()
     {
         int minPointNumber = 0;
         int maxPointNumber = _spawnPoints.Count;
-        int pointNumber = UnityEngine.Random.Range(minPointNumber, maxPointNumber);
+        int pointNumber = Random.Range(minPointNumber, maxPointNumber);
 
         return _spawnPoints[pointNumber].position;
     }
@@ -49,7 +50,7 @@ public class Spawner : MonoBehaviour
         return new Vector3(0, upVectorValue, 0);
     }
 
-    private IEnumerator SpawnRepeating()
+    private IEnumerator SpawningEnemies()
     {
         bool isRuned = true;
 

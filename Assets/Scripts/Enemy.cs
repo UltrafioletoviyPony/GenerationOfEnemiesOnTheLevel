@@ -6,17 +6,18 @@ public class Enemy : MonoBehaviour
     private float _speed;
     private Coroutine _coroutine;
 
-    private void Awake()
-    {
+    private void Awake() =>
         _speed = 0.015f;
-    }
 
-    private void Start()
+    public void Init(Vector3 position, Vector3 rotation)
     {
+        transform.position = position;
+        transform.eulerAngles = rotation;
+
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        StartCoroutine(nameof(MovingForward));
+        StartCoroutine(MovingForward());
     }
 
     private IEnumerator MovingForward()
