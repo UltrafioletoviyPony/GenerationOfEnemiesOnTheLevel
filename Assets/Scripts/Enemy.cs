@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     private Coroutine _coroutine;
 
     private void Awake() =>
-        _speed = 0.015f;
+        _speed = 1f;
 
     public void Init(Vector3 position, Vector3 rotation)
     {
@@ -17,16 +17,16 @@ public class Enemy : MonoBehaviour
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        StartCoroutine(MovingForward());
+        StartCoroutine(Move());
     }
 
-    private IEnumerator MovingForward()
+    private IEnumerator Move()
     {
         bool isMoving = true;
 
         while (isMoving)
         {
-            transform.Translate(Vector3.forward * _speed, Space.Self);
+            transform.Translate(Vector3.forward * (_speed * Time.deltaTime), Space.Self);
             yield return null;
         }
     }
